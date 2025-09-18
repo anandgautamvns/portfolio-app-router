@@ -1,6 +1,7 @@
 
 import { BlogList } from "@/components/blogs/BlogList";
 import { PortfolioList } from "@/components/portfolios/PortfolioList";
+import Link from "next/link";
 // import { delay } from "@/utils";
 // import { Suspense } from "react";
 

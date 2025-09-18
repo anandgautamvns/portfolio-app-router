@@ -1,5 +1,6 @@
-"use client"
+// "use client"
 import Image from "next/image";
+import Link from "next/link";
 // import { useEffect, useState } from "react";
 // import { getBlogs } from "@/utils/fetch";
 import { getBlogs } from "@/utils";
@@ -25,12 +26,14 @@ export function BlogList() {
     return <div>Loading Blogs...</div>
   }
 
+  console.log('blogs', blogs)
+
   return (
     <>
       <div className="content-section-title">Blogs - UPDATED!!!!!</div>
       <div className="content-list">
-        {blogs.map(blog =>
-          <div className="content-item" key={blog.id}>
+        {blogs.map((blog, index) =>
+          <div className="content-item" key={`${blog.slug}-${index}`}>
             <div className="content-item__image-container">
               <Image
                 src={blog.coverImage}
@@ -43,6 +46,7 @@ export function BlogList() {
             <div className="content-item__header">
               <div>{blog.title}</div>
               <div>{blog.description}</div>
+              <Link href={`/blogs/${blog.slug}`}>See More</Link>
             </div>
           </div>
         )}

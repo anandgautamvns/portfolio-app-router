@@ -33,13 +33,13 @@ export function PortfolioList() {
                 </h3>
                 <p className="text-sm text-gray-500">{portfolio.description}</p>
                 <div className="flex-1 flex flex-col justify-end">
-                  <a
+                  <Link
                     target="_"
                     href="/"
                     className="text-base font-semibold text-indigo-600 hover:text-indigo-500"
                   >
                     See Details
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

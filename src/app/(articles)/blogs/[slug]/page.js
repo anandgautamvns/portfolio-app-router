@@ -1,4 +1,5 @@
 
+import { ContentHeader } from "@/components/ContentHeader";
 import { getBlogBySlug, getBlogs } from "@/utils";
 
 export function generateStaticParams() {
@@ -15,12 +16,22 @@ export default async function BlogDetail({ params }) {
   return (
     <>
       {/* Blog Detail of: {params.slug} */}
-      <div>Portfolio Data: {blog.title}, {blog.description}</div>
+      <div className="w-2/3 m-auto">
+        <ContentHeader
+          title={blog.title}
+          description={blog.description}
+          coverImage={blog.coverImage}
+          authorImage={blog.authorImage}
+          date={blog.date}
+          author={blog.author}
+        />
 
-      <hr />
-
-      {/* <div>{blog.content}</div> */}
-      <div dangerouslySetInnerHTML={{__html: blog.content}}></div>
+        {/* <div>{blog.content}</div> */}
+        {/* <div dangerouslySetInnerHTML={{ __html: blog.content }}></div> */}
+        <article className="prose lg:prose-lg markdown-image-50">
+          <div dangerouslySetInnerHTML={{ __html: blog.content }}></div>
+        </article>
+      </div>
     </>
   )
 }

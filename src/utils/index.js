@@ -1,10 +1,8 @@
-// import portfolios from "@/content/portfolios.json";
-// import blogs from "@/content/blogs.json";
+
 
 import path from "path";
 import fs from "fs";
 import matter from "gray-matter";
-
 import { remark } from "remark";
 import remarkGfm from "remark-gfm";
 import remarkHtml from "remark-html";
@@ -18,29 +16,42 @@ export async function delay(ms) {
   })
 }
 
+function getPortfolioNames() {
+  const names = fs.readdirSync(portfoliosDir);
+  return names;
+}
+
+function getBlogNames() {
+  const names = fs.readdirSync(blogsDir);
+  return names;
+}
+
 export function getBlogs() {
-  // return blogs;
-  const blogNames = fs.readdirSync(blogsDir);
+  const blogNames = getBlogNames();
+
   const blogs = blogNames.map(name => {
     const filePath = path.join(blogsDir, name);
     const fileContent = fs.readFileSync(filePath, "utf8");
+
     const { data, content } = matter(fileContent);
     data.slug = name.replace(/\.md$/, "");
+
     return { ...data, content };
-  })
+  });
 
   return blogs;
 }
 
 export function getPortfolios() {
-  // return portfolios;
-  const portfolioNames = fs.readdirSync(portfoliosDir);
+  const portfolioNames = getPortfolioNames();
+
   const portfolios = portfolioNames.map(name => {
     const filePath = path.join(portfoliosDir, name);
     const fileContent = fs.readFileSync(filePath, "utf8");
+
     const { data, content } = matter(fileContent);
     data.slug = name.replace(/\.md$/, "");
-    return { ...data, content };
+    return { ...data, content }
   })
 
   return portfolios;
@@ -74,7 +85,13 @@ export async function getPortfolioBySlug(slug) {
 
   const { data, content } = matter(fileContent);
   data.slug = slug;
-
   const htmlContent = await markdownToHtml(content);
   return { ...data, content: htmlContent };
+}
+
+export function getContentCount() {
+  return {
+    blogs: getBlogNames().length,
+    portfolios: getPortfolioNames().length,
+  }
 }

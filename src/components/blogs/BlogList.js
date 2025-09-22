@@ -1,55 +1,52 @@
-// "use client"
+
+import { getBlogs } from "@/utils";
 import Image from "next/image";
 import Link from "next/link";
-// import { useEffect, useState } from "react";
-// import { getBlogs } from "@/utils/fetch";
-import { getBlogs } from "@/utils";
 
-export function BlogList() {
-  // const { data: blogs } = await getBlogs();
-  // const [blogs, setBlogs] = useState([]);
-
-  // useEffect(() => {
-  //   async function get() {
-  //     // const res = await fetch("http://localhost:3001/api/blogs");
-  //     const res = await fetch("/api/blogs");
-  //     const json = await res.json();
-  //     setBlogs(json.data);
-  //   }
-
-  //   get();
-  // }, []);
-
+export async function BlogList() {
   const blogs = getBlogs();
-
-  if (blogs.length === 0) {
-    return <div>Loading Blogs...</div>
-  }
-
-  console.log('blogs', blogs)
 
   return (
     <>
-      <div className="content-section-title">Blogs - UPDATED!!!!!</div>
-      <div className="content-list">
-        {blogs.map((blog, index) =>
-          <div className="content-item" key={`${blog.slug}-${index}`}>
-            <div className="content-item__image-container">
-              <Image
-                src={blog.coverImage}
-                style={{ objectFit: "cover" }}
-                fill={true}
-                sizes="(max-width: 768px)"
-                alt={blog.title}
-              />
+      <div className="mb-14">
+        <div className="grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:grid-cols-3 lg:gap-x-8">
+          {blogs.map((blog) => (
+            <div
+              key={blog.slug}
+              data-tip
+              data-for={`course-${blog.slug}`}
+              className="group relative bg-white border border-gray-200 rounded-lg flex flex-col overflow-hidden"
+            >
+              <div className="bg-gray-200 h-56 group-hover:opacity-75 sm:aspect-none relative">
+                <Image
+                  src={blog.coverImage}
+                  fill={true}
+                  style={{ objectFit: "cover" }}
+                  sizes="(max-width: 768px)"
+                  alt={blog.title}
+                />
+              </div>
+              <div className="flex-1 p-4 space-y-2 flex flex-col">
+                <h3 className="text-sm font-medium text-gray-900">
+                  <Link href={`/blogs/${blog.slug}`}>
+                    <span aria-hidden="true" className="absolute inset-0" />
+                    {blog.title}
+                  </Link>
+                </h3>
+                <p className="text-sm text-gray-500">{blog.description}</p>
+                <div className="flex-1 flex flex-col justify-end">
+                  <a
+                    target="_"
+                    href="/"
+                    className="text-base font-semibold text-indigo-600 hover:text-indigo-500"
+                  >
+                    See Details
+                  </a>
+                </div>
+              </div>
             </div>
-            <div className="content-item__header">
-              <div>{blog.title}</div>
-              <div>{blog.description}</div>
-              <Link href={`/blogs/${blog.slug}`}>See More</Link>
-            </div>
-          </div>
-        )}
+          ))}
+        </div>
       </div>
     </>
   )

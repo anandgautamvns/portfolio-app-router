@@ -1,7 +1,10 @@
 
 import { BlogList } from "@/components/blogs/BlogList";
+import { Hero } from "@/components/Hero";
 import { PortfolioList } from "@/components/portfolios/PortfolioList";
+import { SectionTitle } from "@/components/SectionTitle";
 import Link from "next/link";
+import { getContentCount } from "@/utils";
 // import { delay } from "@/utils";
 // import { Suspense } from "react";
 
@@ -32,6 +35,7 @@ export const revalidate = 2;
 // }
 
 export default async function Home() {
+  const count = getContentCount();
   // --- sequentional fetching ---
   // const {data: blogs} = await getBlogs();
   // const {data: portfolios} = await getPortfolios();
@@ -42,11 +46,12 @@ export default async function Home() {
 
   // const [blogs, portfolios] = await Promise.all([blogsPromise, portfolioPromise]);
   return (
-    <div>
-      <main>
-        <BlogList />
-        <PortfolioList />
-      </main>
-    </div>
+    <main className="page-container">
+      <Hero count={count} />
+      <SectionTitle title={"Blogs"} href={"/blogs"} />
+      <BlogList />
+      <SectionTitle title={"Portfolios"} href={"/portfolios"} />
+      <PortfolioList />
+    </main>
   );
 }

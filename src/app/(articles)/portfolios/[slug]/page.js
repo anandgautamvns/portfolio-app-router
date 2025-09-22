@@ -1,5 +1,6 @@
 
 import { getPortfolioBySlug, getPortfolios } from "@/utils";
+import { ContentHeader } from "@/components/ContentHeader";
 
 export function generateStaticParams() {
   const portfolios = getPortfolios();
@@ -13,14 +14,17 @@ export default async function PortfolioDetail({ params }) {
   const portfolio = await getPortfolioBySlug(params?.slug);
 
   return (
-    <>
-      {/* Portfolio Detail of: {params.slug} */}
-      <div>Portfolio Data: {portfolio.title}, {portfolio.description}</div>
-
-      <hr />
-
-      {/* <div>{portfolio.content}</div> */}
-      <div dangerouslySetInnerHTML={{__html: portfolio.content}}></div>
-    </>
+    <div>
+      <ContentHeader
+        title={portfolio.title}
+        description={portfolio.description}
+        authorImage={portfolio.employeeImage}
+        date={portfolio.date}
+        author={portfolio.employee}
+      />
+      <article className="prose lg:prose-lg markdown-image-50">
+        <div dangerouslySetInnerHTML={{ __html: portfolio.content }}></div>
+      </article>
+    </div>
   )
 }
